@@ -1,0 +1,15 @@
+/* line 2, /home/fatuk/www/gulp/app/scss/menu */
+.menu__list {
+  list-style: none;
+  padding: 0;
+  margin: 0; }
+/* line 7, /home/fatuk/www/gulp/app/scss/menu */
+.menu__item {
+  display: inline; }
+/* line 10, /home/fatuk/www/gulp/app/scss/menu */
+.menu__link {
+  display: inline-block;
+  padding: 20px; }
+
+
+/*# sourceMappingURL=../css/main.css.map */
