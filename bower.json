@@ -18,16 +18,9 @@
 		"tests"
 	],
 	"overrides": {
-		"bootstrap-sass-official": {
-			"ignore": "*"
-		},
-		"select2": {
-			"main": "select2.js"
-		}
+
 	},
 	"dependencies": {
-		"bootstrap-sass-official": "~3.3.1",
 		"jquery": "~2.1.1",
-		"select2": "~3.5.2"
 	}
 }
