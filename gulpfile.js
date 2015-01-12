@@ -5,21 +5,25 @@ var sourcemaps = require('gulp-sourcemaps');
 var watch = require('gulp-watch');
 var browserSync = require('browser-sync');
 var minifyCSS = require('gulp-minify-css');
-var iconfont = require('gulp-iconfont');
-var consolidate = require('gulp-consolidate');
 var mainBowerFiles = require('main-bower-files');
 var bowerFiles = mainBowerFiles();
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var autoprefixer = require('gulp-autoprefixer');
+var handlebars = require('gulp-compile-handlebars');
+var rename = require('gulp-rename');
 
 var buildPath = 'build';
+var templateData = require('./app/data/data.json');
+
 
 /******************************
  * Default task
  ******************************/
 gulp.task('default', [
 	'browser-sync',
+	'handlebars',
+	'pluginsConcat',
 	'jsConcat',
 	'less',
 	'watch'
@@ -30,10 +34,36 @@ gulp.task('default', [
  ******************************/
 gulp.task('build', [
 	'browser-sync',
+	'handlebars',
+	'pluginsConcat',
 	'jsConcat',
 	'less-min',
 	'watch'
 ]);
+
+/******************************
+ * Handlebars
+ ******************************/
+gulp.task('handlebars', function () {
+	gulp.src('app/templates/*.handlebars')
+		.pipe(handlebars(templateData, {
+			ignorePartials: true, //ignores the unknown partials
+			partials: {
+				footer: '<footer>the end</footer>'
+			},
+			batch: ['./app/templates/partials'],
+			helpers: {
+				capitals: function (str) {
+					return str.fn(this).toUpperCase();
+				}
+			}
+		}))
+		.pipe(rename({
+			extname: '.html'
+		}))
+		.pipe(gulp.dest('./app'))
+		.pipe(gulp.dest('./build'));
+});
 
 /******************************
  * JS plugins
@@ -49,7 +79,7 @@ gulp.task('pluginsConcat', function () {
 /******************************
  * JS concat
  ******************************/
-gulp.task('jsConcat', ['pluginsConcat'], function () {
+gulp.task('jsConcat', function () {
 	gulp.src(['app/js/src/**/*.js'])
 		.pipe(sourcemaps.init())
 		.pipe(concat('app.js'))
@@ -65,14 +95,16 @@ gulp.task('jsConcat', ['pluginsConcat'], function () {
 gulp.task('browser-sync', function () {
 	var files = [
 		'app/**/*.html',
-		'app/js/*.js',
+		'app/templates/**/*.handlebars',
+		'app/js/**/*.js',
 		'app/css/**/*.css'
 	];
 
 	browserSync.init(files, {
 		server: {
 			baseDir: './app'
-		}
+		},
+		open: false
 	});
 });
 
@@ -81,6 +113,8 @@ gulp.task('browser-sync', function () {
  ******************************/
 gulp.task('watch', function () {
 	gulp.watch('app/less/*.less', ['less']);
+	gulp.watch('app/js/src/**/*.js', ['jsConcat']);
+	gulp.watch('app/templates/**/*.handlebars', ['handlebars']);
 });
 
 /******************************
