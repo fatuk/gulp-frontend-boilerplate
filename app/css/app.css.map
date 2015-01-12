@@ -1,0 +1,1 @@
+{"version":3,"sources":["layout.less","app.css"],"names":[],"mappings":"AAAA;EACC,6BAAA;EAAA,qBAAA;ECCA","file":"app.css","sourcesContent":["body {\n\ttransition: all .3s;\n}\n","body {\n  transition: all .3s;\n}\n"],"sourceRoot":"/source/"}

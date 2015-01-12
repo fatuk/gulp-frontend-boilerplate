@@ -1,0 +1,1 @@
+{"version":3,"sources":["models/model.js","views/view.js"],"names":[],"mappings":"AAAA,GAAA,OAAA,OACA,SAAA,IAAA,MCDA,IAAA,MAAA,MAEA,SAAA,IAAA","file":"app.js","sourcesContent":["var model = 'model';\nconsole.log(model);\n","var view = 'view';\n\nconsole.log(view);\n"],"sourceRoot":"/source/"}
