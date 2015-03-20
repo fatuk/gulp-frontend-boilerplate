@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var server = require('gulp-server-livereload');
 var less = require('gulp-less');
 var sourcemaps = require('gulp-sourcemaps');
 var watch = require('gulp-watch');
