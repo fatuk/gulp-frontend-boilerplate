@@ -1,25 +1,24 @@
-var gulp = require('gulp');
-var less = require('gulp-less');
-var sourcemaps = require('gulp-sourcemaps');
-var watch = require('gulp-watch');
-var browserSync = require('browser-sync');
-var minifyCSS = require('gulp-minify-css');
-var mainBowerFiles = require('main-bower-files');
-var bowerFiles = mainBowerFiles();
-var uglify = require('gulp-uglify');
-var concat = require('gulp-concat');
-var autoprefixer = require('gulp-autoprefixer');
-var handlebars = require('gulp-compile-handlebars');
-var rename = require('gulp-rename');
-
-var buildPath = 'build';
-var templateData = require('./app/data/data.json');
+var gulp = require('gulp'),
+	less = require('gulp-less'),
+	sourcemaps = require('gulp-sourcemaps'),
+	watch = require('gulp-watch'),
+	browserSync = require('browser-sync'),
+	minifyCSS = require('gulp-minify-css'),
+	mainBowerFiles = require('main-bower-files'),
+	bowerFiles = mainBowerFiles(),
+	uglify = require('gulp-uglify'),
+	concat = require('gulp-concat'),
+	autoprefixer = require('gulp-autoprefixer'),
+	handlebars = require('gulp-compile-handlebars'),
+	rename = require('gulp-rename'),
+	templateData = require('./app/data/data.json');
 
 
 /******************************
  * Default task
  ******************************/
 gulp.task('default', [
+	'copyAssets',
 	'browser-sync',
 	'handlebars',
 	'pluginsConcat',
@@ -32,6 +31,7 @@ gulp.task('default', [
  * Build task
  ******************************/
 gulp.task('build', [
+	'copyAssets',
 	'browser-sync',
 	'handlebars',
 	'pluginsConcat',
@@ -39,6 +39,18 @@ gulp.task('build', [
 	'less-min',
 	'watch'
 ]);
+
+/******************************
+ * Copy assets to public
+ ******************************/
+gulp.task('copyAssets', function () {
+	'use strict';
+	gulp.src([
+		'assets/**/*.*',
+		'!assets/**/*.less'
+	])
+		.pipe(gulp.dest('public'));
+});
 
 /******************************
  * Handlebars
@@ -60,8 +72,7 @@ gulp.task('handlebars', function () {
 		.pipe(rename({
 			extname: '.html'
 		}))
-		.pipe(gulp.dest('./app'))
-		.pipe(gulp.dest('./build'));
+		.pipe(gulp.dest('./public'));
 });
 
 /******************************
@@ -71,21 +82,19 @@ gulp.task('pluginsConcat', function () {
 	gulp.src(bowerFiles)
 		.pipe(concat('plugins.min.js'))
 		.pipe(uglify())
-		.pipe(gulp.dest('app/js/'))
-		.pipe(gulp.dest('build/js'));
+		.pipe(gulp.dest('public/js'));
 });
 
 /******************************
  * JS concat
  ******************************/
 gulp.task('jsConcat', function () {
-	gulp.src(['app/js/src/**/*.js'])
+	gulp.src(['app/js/**/*.js'])
 		.pipe(sourcemaps.init())
 		.pipe(concat('app.js'))
 		.pipe(uglify())
 		.pipe(sourcemaps.write('../js'))
-		.pipe(gulp.dest('app/js/'))
-		.pipe(gulp.dest('build/js'));
+		.pipe(gulp.dest('public/js'));
 });
 
 /******************************
@@ -101,7 +110,7 @@ gulp.task('browser-sync', function () {
 
 	browserSync.init(files, {
 		server: {
-			baseDir: './app'
+			baseDir: './public'
 		},
 		open: false
 	});
@@ -128,7 +137,7 @@ gulp.task('less', function () {
 			cascade: false
 		}))
 		.pipe(sourcemaps.write('../css'))
-		.pipe(gulp.dest('app/css'));
+		.pipe(gulp.dest('public/css'));
 });
 
 /******************************
