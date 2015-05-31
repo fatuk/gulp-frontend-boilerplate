@@ -11,6 +11,8 @@ var gulp = require('gulp'),
 	autoprefixer = require('gulp-autoprefixer'),
 	handlebars = require('gulp-compile-handlebars'),
 	rename = require('gulp-rename'),
+	plumber = require('gulp-plumber'),
+	notify = require('gulp-notify'),
 	templateData = require('./app/data/data.json');
 
 console.info('********** Bower Files **********');
@@ -90,9 +92,13 @@ gulp.task('pluginsConcat', function () {
  ******************************/
 gulp.task('jsConcat', function () {
 	gulp.src(['app/js/**/*.js'])
+		.pipe(plumber())
 		.pipe(sourcemaps.init())
 		.pipe(concat('app.js'))
 		.pipe(uglify())
+		.on('error', notify.onError(function (error) {
+			return '\nAn error occurred while uglifying js.\nLook in the console for details.\n' + error;
+		}))
 		.pipe(sourcemaps.write('../js'))
 		.pipe(gulp.dest('public/js'));
 });
@@ -129,8 +135,12 @@ gulp.task('watch', function () {
  ******************************/
 gulp.task('less', function () {
 	gulp.src('app/less/app.less')
+		.pipe(plumber())
 		.pipe(sourcemaps.init())
 		.pipe(less())
+		.on('error', notify.onError(function (error) {
+			return '\nAn error occurred while compiling css.\nLook in the console for details.\n' + error;
+		}))
 		.pipe(autoprefixer({
 			browsers: ['last 5 versions'],
 			cascade: false
@@ -144,7 +154,11 @@ gulp.task('less', function () {
  ******************************/
 gulp.task('less-min', function () {
 	gulp.src('app/less/app.less')
+		.pipe(plumber())
 		.pipe(less())
+		.on('error', notify.onError(function (error) {
+			return '\nAn error occurred while compiling css.\nLook in the console for details.\n' + error;
+		}))
 		.pipe(autoprefixer({
 			browsers: ['last 5 versions'],
 			cascade: false
