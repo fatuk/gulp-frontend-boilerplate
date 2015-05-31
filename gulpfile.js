@@ -13,6 +13,8 @@ var gulp = require('gulp'),
 	rename = require('gulp-rename'),
 	templateData = require('./app/data/data.json');
 
+console.info('********** Bower Files **********');
+console.info(bowerFiles);
 
 /******************************
  * Default task
@@ -32,12 +34,10 @@ gulp.task('default', [
  ******************************/
 gulp.task('build', [
 	'copyAssets',
-	'browser-sync',
 	'handlebars',
 	'pluginsConcat',
 	'jsConcat',
-	'less-min',
-	'watch'
+	'less-min'
 ]);
 
 /******************************
@@ -102,10 +102,9 @@ gulp.task('jsConcat', function () {
  ******************************/
 gulp.task('browser-sync', function () {
 	var files = [
-		'app/**/*.html',
-		'app/templates/**/*.handlebars',
-		'app/js/**/*.js',
-		'app/css/**/*.css'
+		'public/**/*.html',
+		'public/js/**/*.js',
+		'public/css/**/*.css'
 	];
 
 	browserSync.init(files, {
@@ -121,7 +120,7 @@ gulp.task('browser-sync', function () {
  ******************************/
 gulp.task('watch', function () {
 	gulp.watch('app/less/*.less', ['less']);
-	gulp.watch('app/js/src/**/*.js', ['jsConcat']);
+	gulp.watch('app/js/**/*.js', ['jsConcat']);
 	gulp.watch('app/templates/**/*.handlebars', ['handlebars']);
 });
 
@@ -156,5 +155,5 @@ gulp.task('less-min', function () {
 			benchmark: false,
 			debug: true
 		}))
-		.pipe(gulp.dest(buildPath + '/css'));
+		.pipe(gulp.dest('public/css'));
 });
