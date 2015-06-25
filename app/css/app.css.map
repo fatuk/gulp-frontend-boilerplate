@@ -1,1 +1,0 @@
-{"version":3,"sources":["layout.less","app.css"],"names":[],"mappings":"AAAA;EACC,wBAAA;CCCA","file":"app.css","sourcesContent":["body {\n\tfont-family: sans-serif;\n}\n","body {\n  font-family: sans-serif;\n}\n"],"sourceRoot":"/source/"}
