@@ -18,9 +18,12 @@
 		"tests"
 	],
 	"overrides": {
-
+		"normalize.less": {
+			"ignore": "normalize.less"
+		}
 	},
 	"dependencies": {
-		"jquery": "~2.1.1"
+		"jquery": "~2.1.1",
+		"normalize.less": "^1.0.0"
 	}
 }
