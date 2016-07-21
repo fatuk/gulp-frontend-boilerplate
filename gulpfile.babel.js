@@ -1,23 +1,25 @@
-var gulp = require('gulp'),
-	less = require('gulp-less'),
-	sourcemaps = require('gulp-sourcemaps'),
-	watch = require('gulp-watch'),
-	browserSync = require('browser-sync'),
-	minifyCSS = require('gulp-minify-css'),
-	mainBowerFiles = require('main-bower-files'),
-	bowerFiles = mainBowerFiles(),
-	uglify = require('gulp-uglify'),
-	concat = require('gulp-concat'),
-	autoprefixer = require('gulp-autoprefixer'),
-	handlebars = require('gulp-compile-handlebars'),
-	rename = require('gulp-rename'),
-	plumber = require('gulp-plumber'),
-	notify = require('gulp-notify'),
-	babel = require('gulp-babel'),
-	templateData = require('./app/data/data.json');
+import gulp from 'gulp';
+import less from 'gulp-less';
+import sourcemaps from 'gulp-sourcemaps';
+import watch from 'gulp-watch';
+import browserSync from 'browser-sync';
+import cleanCSS from 'gulp-clean-css';
+import uglify from 'gulp-uglify';
+import concat from 'gulp-concat';
+import autoprefixer from 'gulp-autoprefixer';
+import handlebars from 'gulp-compile-handlebars';
+import rename from 'gulp-rename';
+import plumber from 'gulp-plumber';
+import notify from 'gulp-notify';
+import babel from 'gulp-babel';
+import templateData from './app/data/data.json';
+import mainBowerFiles from 'main-bower-files';
+let bowerFiles = mainBowerFiles();
 
-console.info('********** Bower Files **********');
-console.info(bowerFiles);
+console.info(`
+********** Bower Files **********
+${bowerFiles}
+`);
 
 /******************************
  * Default task
@@ -38,16 +40,15 @@ gulp.task('default', [
 gulp.task('build', [
 	'copyAssets',
 	'handlebars',
-	'pluginsConcat',
-	'jsConcat',
-	'less-min'
+	'pluginsConcatBuild',
+	'jsConcatBuild',
+	'lessBuild'
 ]);
 
 /******************************
  * Copy assets to public
  ******************************/
-gulp.task('copyAssets', function () {
-	'use strict';
+gulp.task('copyAssets', () => {
 	return gulp.src([
 		'assets/**/*.*',
 		'!assets/**/*.less'
@@ -58,8 +59,7 @@ gulp.task('copyAssets', function () {
 /******************************
  * Handlebars
  ******************************/
-gulp.task('handlebars', function () {
-	'use strict';
+gulp.task('handlebars', () => {
 	templateData.timestamp = + new Date();
 	return gulp.src('app/templates/*.handlebars')
 		.pipe(handlebars(templateData, {
@@ -83,8 +83,16 @@ gulp.task('handlebars', function () {
 /******************************
  * JS plugins
  ******************************/
-gulp.task('pluginsConcat', function () {
-	'use strict';
+gulp.task('pluginsConcat', () => {
+	return gulp.src(bowerFiles)
+		.pipe(concat('plugins.min.js'))
+		.pipe(gulp.dest('public/js'));
+});
+
+/******************************
+ * JS plugins build
+ ******************************/
+gulp.task('pluginsConcatBuild', () => {
 	return gulp.src(bowerFiles)
 		.pipe(concat('plugins.min.js'))
 		.pipe(uglify())
@@ -94,14 +102,29 @@ gulp.task('pluginsConcat', function () {
 /******************************
  * JS concat
  ******************************/
-gulp.task('jsConcat', function () {
-	'use strict';
+gulp.task('jsConcat', () => {
 	return gulp.src(['app/js/**/*.js'])
 		.pipe(plumber())
 		.pipe(sourcemaps.init())
 		.pipe(babel())
 		.pipe(concat('app.js'))
-		// .pipe(uglify())
+		.on('error', notify.onError(function (error) {
+			return '\nAn error occurred while uglifying js.\nLook in the console for details.\n' + error;
+		}))
+		.pipe(sourcemaps.write('../js'))
+		.pipe(gulp.dest('public/js'));
+});
+
+/******************************
+ * JS concat build
+ ******************************/
+gulp.task('jsConcatBuild', () => {
+	return gulp.src(['app/js/**/*.js'])
+		.pipe(plumber())
+		.pipe(sourcemaps.init())
+		.pipe(babel())
+		.pipe(concat('app.js'))
+		.pipe(uglify())
 		.on('error', notify.onError(function (error) {
 			return '\nAn error occurred while uglifying js.\nLook in the console for details.\n' + error;
 		}))
@@ -112,9 +135,8 @@ gulp.task('jsConcat', function () {
 /******************************
  * Browser sync
  ******************************/
-gulp.task('browser-sync', function () {
-	'use strict';
-	var files = [
+gulp.task('browser-sync', () => {
+	let files = [
 		'public/**/*.html',
 		'public/js/**/*.js',
 		'public/css/**/*.css'
@@ -132,8 +154,7 @@ gulp.task('browser-sync', function () {
 /******************************
  * Watch
  ******************************/
-gulp.task('watch', function () {
-	'use strict';
+gulp.task('watch', () => {
 	gulp.watch('app/less/*.less', ['less']);
 	gulp.watch('app/js/**/*.js', ['jsConcat']);
 	gulp.watch('app/templates/**/*.handlebars', ['handlebars']);
@@ -142,8 +163,7 @@ gulp.task('watch', function () {
 /******************************
  * Less
  ******************************/
-gulp.task('less', function () {
-	'use strict';
+gulp.task('less', () => {
 	return gulp.src('app/less/app.less')
 		.pipe(plumber())
 		.pipe(sourcemaps.init())
@@ -160,10 +180,9 @@ gulp.task('less', function () {
 });
 
 /******************************
- * Less min
+ * Less build
  ******************************/
-gulp.task('less-min', function () {
-	'use strict';
+gulp.task('lessBuild', () => {
 	return gulp.src('app/less/app.less')
 		.pipe(plumber())
 		.pipe(less())
@@ -174,11 +193,20 @@ gulp.task('less-min', function () {
 			browsers: ['last 5 versions'],
 			cascade: false
 		}))
-		.pipe(minifyCSS({
-			keepBreaks: false,
-			keepSpecialComments: true,
-			benchmark: false,
+		.pipe(cleanCSS({
 			debug: true
+		}, (details) => {
+			let stats = details.stats;
+			let input = stats.originalSize / 1000;
+			let output = stats.minifiedSize / 1000;
+			let efficiency = stats.efficiency * 100
+			console.log(`
+File name:  ${details.name}
+Before:     ${input} kB
+After:      ${output} kB
+Time spent: ${stats.timeSpent} ms
+Efficiency: ${efficiency}%
+			`);
 		}))
 		.pipe(gulp.dest('public/css'));
 });
