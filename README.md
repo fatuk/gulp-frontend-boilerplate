@@ -10,6 +10,7 @@
 
 ## Features
 
+* ES2015 in gulpfile and in JS source files.
 * [Handlebars](http://handlebarsjs.com/) -- for templating
 * [Bower](http://bower.io/) -- for js plugins. Just install plugin and set main file in `bower.json` at `overrrides` section. Also you can ignore files. And Gulp will concat all in one file `plugins.min.js`. For example:
 
