@@ -1,0 +1,42 @@
+@input-border-color: #d8d8d8;
+@placeholder-color: #99999b;
+@placeholder-size: 16px;
+@input-height: 50px;
+@placeholder-height: 1;
+@placeholder-opacity: 1;
+@input-readonly-color: #fff;
+.input {
+    border: solid 1px @input-border-color;
+    border-radius: 5px;
+    font-size: @placeholder-size;
+    font-weight: 300;
+    color: #36343a;
+    line-height: 1;
+    height: @input-height;
+    vertical-align: middle;
+    padding: 0 10px;
+    width: 100%;
+    float: left;
+    letter-spacing: 0.04em;
+    transition: box-shadow .3s, border-color .3s;
+    -webkit-appearance: none;
+    &:focus,
+    &:active {
+        border-color: grey;
+        outline: none;
+    }
+    &[readonly] {
+        background: @input-readonly-color;
+        opacity: .5;
+        border-color: @input-border-color;
+    }
+    &:disabled {
+        background: @input-readonly-color;
+        opacity: .5;
+        color: #36343a;
+        border-color: @input-border-color;
+    }
+    &_static {
+        line-height: @input-height;
+    }
+}

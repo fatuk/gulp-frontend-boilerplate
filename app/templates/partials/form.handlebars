@@ -1,0 +1,104 @@
+<!-- Form -->
+<div class="form">
+	<form action="#">
+		<!-- Header -->
+		<header class="form__header">
+			<h2 class="form__title">
+				My form
+			</h2>
+			<p class="form__text">
+				Lorem ipsum dolor sit amet, consectetur.
+			</p>
+		</header>
+		<!-- Content -->
+		<div class="form__content">
+			<!-- Name -->
+			<div class="form__row">
+				<div class="form__column form__column_left">
+					<label for="name" class="label">
+						<span class="label__text">
+							Name
+						</span>
+					</label>
+				</div>
+				<div class="form__column form__column_right">
+					<input id="name" type="text" class="input">
+				</div>
+			</div>
+			<!-- Range -->
+			<div class="form__row">
+				<div class="form__column form__column_left">
+					<label for="range" class="label">
+						<span class="label__text">
+							Range
+						</span>
+					</label>
+				</div>
+				<div class="form__column form__column_right">
+					<div class="form__cell">
+						<input id="range" type="text" class="input">
+					</div>
+					<div class="form__cell">
+						<input id="range2" type="text" class="input">
+					</div>
+				</div>
+			</div>
+			<!-- Checkbox -->
+			<div class="form__row">
+				<div class="form__column form__column_left">
+					<label for="checkbox" class="label">
+						<span class="label__text">
+							Checkbox
+						</span>
+					</label>
+				</div>
+				<div class="form__column form__column_right">
+					<label class="checkbox">
+						<input id="checkbox" type="checkbox" class="checkbox__input">
+						<i class="fa fa-check"></i>
+						<span class="checkbox__label">
+							Tick me up
+						</span>
+					</label>
+				</div>
+			</div>
+			<!-- Email -->
+			<div class="form__row">
+				<div class="form__column form__column_left">
+					<label for="email" class="label">
+						<span class="label__text">
+							Email
+						</span>
+					</label>
+				</div>
+				<div class="form__column form__column_right">
+					<!-- Field -->
+					<label class="field field_error">
+						<input id="email" type="text" class="input">
+						<!-- Error message -->
+						<div class="error-message">
+							This field is required
+						</div>
+					</label>
+				</div>
+			</div>
+			<!-- Submit -->
+			<div class="form__row">
+				<div class="form__column form__column_left"></div>
+				<div class="form__column form__column_right">
+					<button class="btn">
+						<span class="btn__text">
+							Send
+						</span>
+					</button>
+				</div>
+			</div>
+		</div>
+		<!-- Footer -->
+		<footer class="form__footer">
+			<p class="form__text">
+				Thanks for filling form
+			</p>
+		</footer>
+	</form>
+</div>

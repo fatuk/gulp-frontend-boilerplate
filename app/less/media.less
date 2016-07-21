@@ -1,0 +1,22 @@
+// Sizes
+@desktop: 1280px;
+@tablet: 960px;
+@portreit: 640px;
+@mobile: 320px;
+@scrollbar: 30px;
+// Desktop
+@media (min-width: (@desktop + @scrollbar)) {
+	.message('Desktop');
+}
+// Tablet
+@media (max-width: (@desktop + @scrollbar)) {
+	.message('Tablet');
+}
+// Portreit
+@media (max-width: (@tablet + @scrollbar)) {
+	.message('Portreit');
+}
+// Mobile
+@media (max-width: (@portreit + @scrollbar)) {
+	.message('Mobile');
+}
