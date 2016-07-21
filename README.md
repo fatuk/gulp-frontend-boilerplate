@@ -1,5 +1,13 @@
 # Gulp based boilerplate for frontend projects
 
+## How to run?
+
+* download this repo
+* `npm install && bower install`
+* for develop run `gulp`
+* for build run `gulp build`
+* open in browser `http://localhost:3000/`
+
 ## Features
 
 * [Handlebars](http://handlebarsjs.com/) -- for templating
@@ -19,14 +27,6 @@
 * [BrowserSync](http://www.browsersync.io/docs/gulp/) -- it's really cool feature. It syncs page on every opened devices. Clicks, scrolls, forms are synced also. [Read more](http://www.smashingmagazine.com/2014/06/11/building-with-gulp/)
 
 <img src="http://media.mediatemple.netdna-cdn.com/wp-content/uploads/2014/06/03-browsersync-opt.gif" alt="GIF from smashing magazin">
-
-## How to run?
-
-* download this repo
-* `npm install && bower install`
-* for develop run `gulp`
-* for build run `gulp build`
-* open in browser `http://localhost:3000/`
 
 ## Afterword
 

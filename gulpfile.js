@@ -58,6 +58,7 @@ gulp.task('copyAssets', function () {
  * Handlebars
  ******************************/
 gulp.task('handlebars', function () {
+	templateData.timestamp = + new Date();
 	gulp.src('app/templates/*.handlebars')
 		.pipe(handlebars(templateData, {
 			ignorePartials: true, //ignores the unknown partials
@@ -117,7 +118,8 @@ gulp.task('browser-sync', function () {
 		server: {
 			baseDir: './public'
 		},
-		open: false
+		open: false,
+		ghostMode: false
 	});
 });
 
