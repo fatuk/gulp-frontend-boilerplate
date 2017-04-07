@@ -27,7 +27,7 @@
 * [LESS](http://lesscss.org/) -- for css
 * [BrowserSync](http://www.browsersync.io/docs/gulp/) -- it's really cool feature. It syncs page on every opened devices. Clicks, scrolls, forms are synced also. [Read more](http://www.smashingmagazine.com/2014/06/11/building-with-gulp/)
 
-<img src="assets/browsersync.gif" alt="GIF from smashing magazin">
+<img src="https://raw.githubusercontent.com/fatuk/gulp-frontend-boilerplate/master/assets/img/browsersync.gif" alt="GIF from smashing magazin">
 
 ## Afterword
 
